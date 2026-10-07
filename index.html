@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0B0F17">
+  <meta name="description" content="Straight-up gadget picks for Indian students. Compare laptops, earbuds, smartwatches and tablets up to Rs. 5,00,000.">
+  <title>Tech Gadget Matrix | Student tech, sorted</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            ink: '#0B0F17',
+            surface: '#161F30',
+            indigo: '#6366F1',
+            mint: '#10B981',
+            cyan: '#06B6D4'
+          },
+          fontFamily: {
+            sans: ['DM Sans', 'sans-serif'],
+            display: ['Space Grotesk', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+  <style>
+    [x-cloak] { display: none !important; }
+    :root { color-scheme: dark; }
+    body { font-family: 'DM Sans', sans-serif; background: #0B0F17; }
+    h1, h2, h3, .display { font-family: 'Space Grotesk', sans-serif; }
+    .grid-noise {
+      background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, black, transparent 82%);
+    }
+    .hero-glow { background: radial-gradient(ellipse at 50% 15%, rgba(99,102,241,.18), transparent 54%), radial-gradient(ellipse at 85% 65%, rgba(6,182,212,.09), transparent 38%); }
+    .range-input { accent-color: #06B6D4; }
+    .product-image { transition: transform .45s cubic-bezier(.2,.7,.2,1); }
+    .product-card:hover .product-image { transform: scale(1.045); }
+    .fade-up { animation: fade-up .55s both; }
+    @keyframes fade-up { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+    }
+  </style>
+  <script>
+    const products = [
+      {
+        id: 'asus-vivobook-go-15', name: 'ASUS Vivobook Go 15', brand: 'ASUS', category: 'Laptops', price: 38990, mrp: 52990,
+        badge: 'Best for Coding', specs: { display: '15.6” FHD anti-glare', processor: 'Ryzen 5 7520U', ram_storage: '16GB / 512GB SSD', battery: '42Wh + fast charge' },
+        amazon_url: 'https://www.amazon.in/s?k=ASUS+Vivobook+Go+15+Ryzen+5', cuelinks_url: 'https://www.cuelinks.com/', image_url: 'https://placehold.co/720x480/14202d/06b6d4?text=ASUS+Vivobook+Go+15'
+      },
+      {
+        id: 'lenovo-ideapad-slim-3', name: 'Lenovo IdeaPad Slim 3', brand: 'Lenovo', category: 'Laptops', price: 42990, mrp: 57990,
+        badge: 'All-rounder Pick', specs: { display: '15.6” FHD IPS', processor: 'Intel Core i5-12450H', ram_storage: '16GB / 512GB SSD', battery: '47Wh + Rapid Charge' },
+        amazon_url: 'https://www.amazon.in/s?k=Lenovo+IdeaPad+Slim+3+i5+16GB', cuelinks_url: 'https://www.cuelinks.com/', image_url: 'https://placehold.co/720x480/17202f/818cf8?text=Lenovo+IdeaPad+Slim+3'
+      },
+      {
+        id: 'oneplus-nord-buds-3-pro', name: 'OnePlus Nord Buds 3 Pro', brand: 'OnePlus', category: 'Earbuds', price: 2999, mrp: 3999,
+        badge: 'Campus Commute', specs: { display: '12.4mm titanium drivers', processor: 'Bluetooth 5.4', ram_storage: 'Adaptive ANC · 49dB', battery: '44 hrs total + fast charge' },
+        amazon_url: 'https://www.amazon.in/s?k=OnePlus+Nord+Buds+3+Pro', cuelinks_url: 'https://www.cuelinks.com/', image_url: 'https://placehold.co/720x480/14262a/34d399?text=Nord+Buds+3+Pro'
+      },
+      {
+        id: 'realme-buds-air-6', name: 'realme Buds Air 6', brand: 'realme', category: 'Earbuds', price: 3299, mrp: 4999,
+        badge: 'Best ANC Under ₹4k', specs: { display: '12.4mm Hi-Res driver', processor: 'Bluetooth 5.3', ram_storage: '50dB smart ANC', battery: '40 hrs total + 10 min charge' },
+        amazon_url: 'https://www.amazon.in/s?k=realme+Buds+Air+6', cuelinks_url: 'https://www.cuelinks.com/', image_url: 'https://placehold.co/720x480/251d32/c4b5fd?text=realme+Buds+Air+6'
+      },
+      {
+        id: 'amazfit-active-edge', name: 'Amazfit Active Edge', brand: 'Amazfit', category: 'Smartwatches', price: 9999, mrp: 12999,
+        badge: '24-day Battery', specs: { display: '1.32” LCD · 360 × 360', processor: 'Zepp OS 2.0', ram_storage: '130+ sports modes', battery: 'Up to 24 days' },
+        amazon_url: 'https://www.amazon.in/s?k=Amazfit+Active+Edge', cuelinks_url: 'https://www.cuelinks.com/', image_url: 'https://placehold.co/720x480/1d2530/67e8f9?text=Amazfit+Active+Edge'
+      },
+      {
+        id: 'samsung-galaxy-fit3', name: 'Samsung Galaxy Fit3', brand: 'Samsung', category: 'Smartwatches', price: 4999, mrp: 9999,
+        badge: 'Value King', specs: { display: '1.6” AMOLED · 256 × 402', processor: 'Samsung wearable OS', ram_storage: '100+ workout modes', battery: 'Up to 13 days' },
+        amazon_url: 'https://www.amazon.in/s?k=Samsung+Galaxy+Fit3', cuelinks_url: 'https://www.cuelinks.com/', image_url: 'https://placehold.co/720x480/152b2d/6ee7b7?text=Galaxy+Fit3'
+      },
+      {
+        id: 'samsung-galaxy-tab-a9-plus', name: 'Samsung Galaxy Tab A9+', brand: 'Samsung', category: 'Tablets', price: 18999, mrp: 24999,
+        badge: 'Best for Lecture Notes', specs: { display: '11” 90Hz LCD', processor: 'Snapdragon 695', ram_storage: '8GB / 128GB', battery: '7040mAh + 15W' },
+        amazon_url: 'https://www.amazon.in/s?k=Samsung+Galaxy+Tab+A9+Plus+8GB', cuelinks_url: 'https://www.cuelinks.com/', image_url: 'https://placehold.co/720x480/1d2134/a5b4fc?text=Galaxy+Tab+A9%2B'
+      },
+      {
+        id: 'xiaomi-pad-6', name: 'Xiaomi Pad 6', brand: 'Xiaomi', category: 'Tablets', price: 26999, mrp: 33999,
+        badge: 'Best Display', specs: { display: '11” 144Hz 2.8K LCD', processor: 'Snapdragon 870', ram_storage: '8GB / 256GB', battery: '8840mAh + 33W' },
+        amazon_url: 'https://www.amazon.in/s?k=Xiaomi+Pad+6+8GB+256GB', cuelinks_url: 'https://www.cuelinks.com/', image_url: 'https://placehold.co/720x480/24202f/f0abfc?text=Xiaomi+Pad+6'
+      }
+    ];
+
+    function gadgetMatrix() {
+      return {
+        products,
+        categories: ['All', 'Laptops', 'Earbuds', 'Smartwatches', 'Tablets'],
+        activeCategory: 'All',
+        search: '',
+        maxBudget: 500000,
+        selectedIds: [],
+        comparisonOpen: false,
+        get filteredProducts() {
+          const query = this.search.trim().toLowerCase();
+          return this.products.filter((product) => {
+            const matchesCategory = this.activeCategory === 'All' || product.category === this.activeCategory;
+            const searchable = [product.name, product.brand, product.category, product.badge, ...Object.values(product.specs)].join(' ').toLowerCase();
+            return matchesCategory && product.price <= this.maxBudget && (!query || searchable.includes(query));
+          });
+        },
+        get selectedProducts() {
+          return this.selectedIds.map((id) => this.products.find((product) => product.id === id)).filter(Boolean);
+        },
+        formatPrice(amount) {
+          return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(amount);
+        },
+        discount(product) {
+          return Math.round((1 - product.price / product.mrp) * 100);
+        },
+        toggleCompare(id) {
+          if (this.selectedIds.includes(id)) {
+            this.selectedIds = this.selectedIds.filter((selectedId) => selectedId !== id);
+          } else if (this.selectedIds.length < 2) {
+            this.selectedIds.push(id);
+          }
+        },
+        clearComparison() {
+          this.selectedIds = [];
+          this.comparisonOpen = false;
+        }
+      };
+    }
+  </script>
+</head>
+<body class="min-h-screen bg-ink text-slate-100 antialiased" x-data="gadgetMatrix()" @keydown.escape.window="comparisonOpen = false" @keydown.window.ctrl.k.prevent="$refs.search.focus()" @keydown.window.meta.k.prevent="$refs.search.focus()">
+  <header class="fixed inset-x-0 top-0 z-40 border-b border-white/[.08] bg-[#0B0F17]/85 backdrop-blur-xl">
+    <div class="mx-auto flex h-[70px] max-w-[1440px] items-center justify-between gap-5 px-5 sm:px-8 lg:px-12">
+      <a href="#top" class="flex shrink-0 items-center gap-2.5" aria-label="Gadget Matrix home">
+        <span class="relative flex h-2.5 w-2.5"><span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-cyan opacity-50"></span><span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-cyan shadow-[0_0_14px_#06B6D4]"></span></span>
+        <span class="font-display text-[13px] font-bold tracking-[.12em] text-white">GADGET <span class="text-slate-400">MATRIX</span></span>
+      </a>
+      <nav class="hidden items-center gap-1 md:flex" aria-label="Product categories">
+        <template x-for="category in categories" :key="category">
+          <button @click="activeCategory = category" :aria-pressed="activeCategory === category" :class="activeCategory === category ? 'bg-white/[.1] text-white' : 'text-slate-400 hover:bg-white/[.05] hover:text-white'" class="rounded-full px-3.5 py-2 text-[13px] font-medium transition-all duration-300" x-text="category"></button>
+        </template>
+      </nav>
+      <a href="#products" class="hidden items-center gap-2 text-xs font-semibold text-slate-300 transition hover:text-cyan sm:flex">Student picks <i data-lucide="arrow-up-right" class="h-3.5 w-3.5"></i></a>
+      <nav class="absolute left-0 right-0 top-[70px] flex gap-2 overflow-x-auto border-b border-white/[.06] bg-ink px-5 py-2.5 md:hidden" aria-label="Product categories">
+        <template x-for="category in categories" :key="category">
+          <button @click="activeCategory = category" :aria-pressed="activeCategory === category" :class="activeCategory === category ? 'border-cyan/40 bg-cyan/10 text-cyan' : 'border-white/10 text-slate-400'" class="shrink-0 rounded-full border px-3 py-1.5 text-xs font-medium" x-text="category"></button>
+        </template>
+      </nav>
+    </div>
+  </header>
+
+  <main id="top" class="overflow-hidden pt-[118px] md:pt-[70px]">
+    <section class="hero-glow relative isolate border-b border-white/[.07]">
+      <div class="grid-noise pointer-events-none absolute inset-0 -z-10"></div>
+      <div class="mx-auto grid max-w-[1440px] items-center gap-12 px-5 pb-16 pt-16 sm:px-8 sm:pb-20 sm:pt-20 lg:grid-cols-[1.12fr_.88fr] lg:px-12 lg:pb-24 lg:pt-24">
+        <div class="fade-up max-w-3xl">
+          <div class="mb-6 inline-flex items-center gap-2 rounded-full border border-cyan/20 bg-cyan/[.07] px-3 py-1.5 text-[11px] font-semibold uppercase tracking-[.14em] text-cyan">
+            <i data-lucide="sparkles" class="h-3.5 w-3.5"></i> Smarter picks for campus life
+          </div>
+          <h1 class="display max-w-3xl text-[42px] font-semibold leading-[1.08] tracking-[-.035em] text-white sm:text-6xl lg:text-[68px]">Find the best student tech.<br><span class="bg-gradient-to-r from-cyan via-indigo to-[#a5b4fc] bg-clip-text text-transparent">No jargon. Real deals.</span></h1>
+          <p class="mt-6 max-w-xl text-[15px] leading-7 text-slate-400 sm:text-base">Good gear, minus the guesswork. Straight-up picks for Indian students, with budgets up to <span class="font-semibold text-slate-200">₹5,00,000</span>.</p>
+
+          <div class="mt-9 flex max-w-2xl flex-col gap-3 sm:flex-row">
+            <label class="flex h-14 min-w-0 flex-1 items-center gap-3 rounded-xl border border-white/10 bg-[#111824]/80 px-4 transition focus-within:border-cyan/50 focus-within:ring-2 focus-within:ring-cyan/10">
+              <i data-lucide="search" class="h-[18px] w-[18px] shrink-0 text-slate-500"></i>
+              <input x-ref="search" x-model="search" type="search" placeholder="Search laptops, earbuds, specs..." aria-label="Search gadgets" class="w-full bg-transparent text-sm text-white outline-none placeholder:text-slate-500">
+              <kbd class="hidden rounded border border-white/10 px-1.5 py-1 text-[10px] text-slate-500 sm:inline">Ctrl K</kbd>
+            </label>
+            <a href="#products" class="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-indigo px-5 text-sm font-semibold text-white shadow-[0_8px_30px_rgba(99,102,241,.22)] transition duration-300 hover:-translate-y-0.5 hover:bg-indigo-500">Explore picks <i data-lucide="arrow-down" class="h-4 w-4"></i></a>
+          </div>
+          <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-[11px] text-slate-500"><span>Popular:</span><button @click="search = 'Ryzen'" class="transition hover:text-cyan">Ryzen 5</button><button @click="search = 'AMOLED'" class="transition hover:text-cyan">AMOLED</button><button @click="search = 'battery'" class="transition hover:text-cyan">Long battery</button><button @click="search = ''" class="transition hover:text-cyan">Clear search</button></div>
+        </div>
+
+        <div class="fade-up relative mx-auto w-full max-w-md lg:ml-auto" style="animation-delay: 100ms">
+          <div class="absolute -inset-8 rounded-[40%] bg-indigo/10 blur-3xl"></div>
+          <div class="relative overflow-hidden rounded-2xl border border-white/10 bg-[#141c29]/90 p-5 shadow-2xl shadow-black/30 sm:p-6">
+            <div class="flex items-center justify-between border-b border-white/[.08] pb-4">
+              <div><p class="text-[10px] font-semibold uppercase tracking-[.18em] text-slate-500">Your budget, your call</p><p class="mt-1 text-sm text-slate-300">Dial in a price ceiling</p></div>
+              <div class="flex h-10 w-10 items-center justify-center rounded-xl border border-cyan/20 bg-cyan/[.08] text-cyan"><i data-lucide="sliders-horizontal" class="h-5 w-5"></i></div>
+            </div>
+            <div class="mt-6 flex items-end justify-between gap-4">
+              <div><p class="text-xs text-slate-500">Max budget</p><p class="display mt-1 text-3xl font-semibold text-white" x-text="formatPrice(maxBudget)"></p></div>
+              <span class="mb-1 inline-flex items-center gap-1.5 text-xs text-mint"><i data-lucide="badge-check" class="h-4 w-4"></i> No pick over budget</span>
+            </div>
+            <input x-model.number="maxBudget" type="range" min="10000" max="500000" step="5000" aria-label="Maximum budget" class="range-input mt-6 h-1.5 w-full cursor-pointer appearance-none rounded-full bg-slate-700">
+            <div class="mt-2 flex justify-between text-[11px] text-slate-500"><span>₹10,000</span><span>₹5,00,000</span></div>
+            <div class="mt-6 grid grid-cols-3 divide-x divide-white/[.08] border-t border-white/[.08] pt-5">
+              <div class="px-2 text-center"><p class="display text-xl font-semibold text-white">08</p><p class="mt-1 text-[10px] uppercase tracking-wider text-slate-500">Curated picks</p></div>
+              <div class="px-2 text-center"><p class="display text-xl font-semibold text-white">04</p><p class="mt-1 text-[10px] uppercase tracking-wider text-slate-500">Categories</p></div>
+              <div class="px-2 text-center"><p class="display text-xl font-semibold text-cyan">₹5L</p><p class="mt-1 text-[10px] uppercase tracking-wider text-slate-500">Hard limit</p></div>
+            </div>
+          </div>
+          <div class="absolute -bottom-5 -left-5 hidden items-center gap-3 rounded-xl border border-white/10 bg-[#182232] px-4 py-3 shadow-xl sm:flex">
+            <span class="flex h-9 w-9 items-center justify-center rounded-lg bg-mint/10 text-mint"><i data-lucide="indian-rupee" class="h-[18px] w-[18px]"></i></span>
+            <div><p class="text-xs font-semibold text-white">Student-budget friendly</p><p class="mt-0.5 text-[10px] text-slate-500">Every pick earns its place</p></div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="products" class="mx-auto max-w-[1440px] px-5 pb-28 pt-14 sm:px-8 sm:pb-32 sm:pt-20 lg:px-12">
+      <div class="mb-8 flex flex-col justify-between gap-5 border-b border-white/[.08] pb-6 sm:flex-row sm:items-end">
+        <div>
+          <div class="mb-3 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[.16em] text-cyan"><span class="h-px w-5 bg-cyan"></span> The student shortlist</div>
+          <h2 class="display text-3xl font-semibold tracking-[-.03em] text-white sm:text-[38px]">Good tech. Better choices.</h2>
+          <p class="mt-2 text-sm text-slate-500">Eight handpicked upgrades for your everyday campus kit.</p>
+        </div>
+        <div class="flex items-center gap-2 self-start rounded-lg border border-white/[.08] bg-white/[.025] px-3 py-2 text-xs text-slate-400 sm:self-auto"><i data-lucide="arrow-down-wide-narrow" class="h-4 w-4 text-slate-500"></i><span x-text="filteredProducts.length + ' picks'">8 picks</span><span class="text-slate-600">·</span><span x-text="'Under ' + formatPrice(maxBudget)">Under ₹50,000</span></div>
+      </div>
+
+      <div x-show="filteredProducts.length" class="grid gap-5 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+        <template x-for="(product, index) in filteredProducts" :key="product.id">
+          <article class="product-card fade-up group flex min-w-0 flex-col overflow-hidden rounded-xl border border-white/[.09] bg-surface/75 transition-all duration-300 hover:-translate-y-1 hover:border-white/20 hover:bg-[#192438]" :style="'animation-delay:' + (index * 45) + 'ms'">
+            <div class="relative m-2.5 overflow-hidden rounded-lg border border-white/[.06] bg-[#101722]">
+              <img :src="product.image_url" :alt="product.name" loading="lazy" class="product-image aspect-[1.58/1] w-full object-cover">
+              <div class="absolute left-3 top-3 flex items-center gap-1.5 rounded-md border border-white/10 bg-[#0B0F17]/80 px-2.5 py-1.5 text-[10px] font-semibold text-slate-200 backdrop-blur-md"><span class="h-1.5 w-1.5 rounded-full bg-cyan"></span><span x-text="product.category"></span></div>
+              <div class="absolute right-3 top-3 max-w-[58%] rounded-md border border-indigo/25 bg-[#101321]/85 px-2.5 py-1.5 text-right text-[10px] font-semibold text-indigo-200 backdrop-blur-md" x-text="product.badge"></div>
+            </div>
+            <div class="flex flex-1 flex-col px-4 pb-4 pt-2">
+              <p class="text-[10px] font-semibold uppercase tracking-[.14em] text-slate-500" x-text="product.brand"></p>
+              <h3 class="mt-1.5 min-h-[48px] text-[17px] font-semibold leading-6 text-white" x-text="product.name"></h3>
+              <div class="mt-3 flex min-h-[54px] flex-wrap content-start gap-1.5">
+                <template x-for="(spec, specIndex) in Object.values(product.specs).slice(0, 3)" :key="specIndex"><span class="rounded border border-white/[.07] bg-white/[.035] px-2 py-1 text-[10px] leading-4 text-slate-400" x-text="spec"></span></template>
+              </div>
+              <div class="mt-4 flex items-end justify-between gap-2 border-t border-white/[.07] pt-4">
+                <div><div class="display text-[23px] font-semibold leading-none text-mint" x-text="formatPrice(product.price)"></div><div class="mt-2 flex items-center gap-2"><span class="text-xs text-slate-600 line-through" x-text="formatPrice(product.mrp)"></span><span class="rounded bg-mint/10 px-1.5 py-0.5 text-[10px] font-semibold text-mint" x-text="discount(product) + '% off'"></span></div></div>
+                <span class="mb-0.5 inline-flex items-center gap-1 text-[10px] text-slate-500"><i data-lucide="badge-indian-rupee" class="h-3.5 w-3.5"></i> Student pick</span>
+              </div>
+              <div class="mt-4 grid grid-cols-[1fr_auto] gap-2">
+                <a :href="product.amazon_url" target="_blank" rel="noopener noreferrer sponsored" class="inline-flex h-10 items-center justify-center gap-2 rounded-lg bg-mint px-3 text-xs font-bold text-[#06251d] transition duration-300 hover:bg-emerald-300"><span>Buy on Amazon</span><i data-lucide="arrow-up-right" class="h-3.5 w-3.5"></i></a>
+                <button @click="toggleCompare(product.id)" :aria-pressed="selectedIds.includes(product.id)" :disabled="selectedIds.length >= 2 && !selectedIds.includes(product.id)" :class="selectedIds.includes(product.id) ? 'border-cyan/40 bg-cyan/10 text-cyan' : 'border-white/10 bg-white/[.035] text-slate-300 hover:border-white/20 hover:bg-white/[.07]'" :title="selectedIds.length >= 2 && !selectedIds.includes(product.id) ? 'Remove a product before adding another' : 'Add to comparison'" class="inline-flex h-10 min-w-[94px] items-center justify-center gap-1.5 rounded-lg border px-3 text-xs font-semibold transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-40"><i :data-lucide="selectedIds.includes(product.id) ? 'check' : 'scale'" class="h-3.5 w-3.5"></i><span x-text="selectedIds.includes(product.id) ? 'Added' : 'Compare'"></span></button>
+              </div>
+            </div>
+          </article>
+        </template>
+      </div>
+
+      <div x-cloak x-show="!filteredProducts.length" class="border-y border-white/[.08] py-20 text-center">
+        <span class="mx-auto flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/[.03] text-slate-500"><i data-lucide="search-x" class="h-5 w-5"></i></span>
+        <h3 class="mt-4 text-lg font-semibold text-white">No picks in this search</h3>
+        <p class="mt-1 text-sm text-slate-500">Try another term or raise your budget ceiling.</p>
+        <button @click="search = ''; activeCategory = 'All'; maxBudget = 500000" class="mt-5 text-sm font-semibold text-cyan hover:text-cyan-300">Reset filters</button>
+      </div>
+
+      <div class="mt-14 flex flex-col gap-4 border-t border-white/[.08] pt-6 sm:flex-row sm:items-center sm:justify-between">
+        <p class="max-w-2xl text-[11px] leading-5 text-slate-600">Prices and availability can change. We may earn a small commission from qualifying purchases through retailer links, at no extra cost to you. Product picks are editorial and student-focused.</p>
+        <div class="flex shrink-0 items-center gap-4 text-[11px] text-slate-500"><span class="inline-flex items-center gap-1.5"><span class="h-1.5 w-1.5 rounded-full bg-mint"></span> Prices in INR</span><span class="inline-flex items-center gap-1.5"><span class="h-1.5 w-1.5 rounded-full bg-cyan"></span> India picks</span></div>
+      </div>
+    </section>
+  </main>
+
+  <div x-cloak x-show="selectedIds.length > 0" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="translate-y-8 opacity-0" x-transition:enter-end="translate-y-0 opacity-100" x-transition:leave="transition ease-in duration-200" x-transition:leave-start="translate-y-0 opacity-100" x-transition:leave-end="translate-y-8 opacity-0" class="fixed inset-x-0 bottom-0 z-40 px-3 pb-3 sm:px-6 sm:pb-5">
+    <div class="mx-auto flex max-w-4xl flex-col gap-3 rounded-xl border border-white/10 bg-[#141c29]/95 p-3 shadow-[0_20px_80px_rgba(0,0,0,.55)] backdrop-blur-xl sm:flex-row sm:items-center sm:justify-between sm:px-5 sm:py-3.5">
+      <div class="flex min-w-0 items-center gap-3">
+        <div class="flex shrink-0 -space-x-2">
+          <template x-for="product in selectedProducts" :key="product.id"><img :src="product.image_url" :alt="product.name" class="h-10 w-10 rounded-lg border-2 border-[#141c29] object-cover"></template>
+          <template x-if="selectedIds.length === 1"><div class="flex h-10 w-10 items-center justify-center rounded-lg border-2 border-dashed border-white/15 bg-white/[.03] text-slate-600"><i data-lucide="plus" class="h-4 w-4"></i></div></template>
+        </div>
+        <div class="min-w-0"><p class="text-sm font-semibold text-white">Compare gadgets</p><p class="mt-0.5 truncate text-[11px] text-slate-500"><span x-text="selectedIds.length + '/2 selected'"></span><template x-if="selectedProducts.length"><span> · <span x-text="selectedProducts.map((product) => product.name).join(' vs ')"></span></span></template></p></div>
+      </div>
+      <div class="flex shrink-0 items-center gap-2">
+        <button @click="clearComparison()" class="rounded-lg px-3 py-2.5 text-xs font-medium text-slate-500 transition hover:text-white">Clear</button>
+        <button @click="comparisonOpen = true" :disabled="selectedIds.length !== 2" class="inline-flex h-10 flex-1 items-center justify-center gap-2 rounded-lg bg-indigo px-4 text-xs font-semibold text-white transition duration-300 hover:bg-indigo-500 disabled:cursor-not-allowed disabled:bg-slate-700 disabled:text-slate-400 sm:flex-none"><i data-lucide="columns-2" class="h-4 w-4"></i> Compare side-by-side</button>
+      </div>
+    </div>
+  </div>
+
+  <div x-cloak x-show="comparisonOpen" x-transition.opacity class="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/75 p-3 backdrop-blur-sm sm:p-6" @click.self="comparisonOpen = false" role="dialog" aria-modal="true" aria-labelledby="compare-title">
+    <div x-transition class="my-auto w-full max-w-5xl overflow-hidden rounded-2xl border border-white/10 bg-[#111824] shadow-2xl shadow-black/50">
+      <div class="flex items-start justify-between border-b border-white/[.08] px-5 py-5 sm:px-7">
+        <div><div class="mb-2 inline-flex items-center gap-1.5 text-[10px] font-semibold uppercase tracking-[.16em] text-cyan"><i data-lucide="columns-2" class="h-3.5 w-3.5"></i> The side-by-side</div><h2 id="compare-title" class="display text-2xl font-semibold text-white sm:text-[28px]">Pick your better fit.</h2><p class="mt-1 text-xs text-slate-500">A quick read on the specs that matter for student life.</p></div>
+        <button @click="comparisonOpen = false" aria-label="Close comparison" class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-white/10 text-slate-400 transition hover:bg-white/[.06] hover:text-white"><i data-lucide="x" class="h-4 w-4"></i></button>
+      </div>
+      <div class="max-h-[72vh] overflow-auto px-5 py-5 sm:px-7 sm:py-6">
+        <div class="grid grid-cols-[92px_1fr_1fr] gap-3 sm:grid-cols-[160px_1fr_1fr] sm:gap-5">
+          <div class="pt-3 text-[10px] font-semibold uppercase tracking-[.14em] text-slate-600">Compare</div>
+          <template x-for="product in selectedProducts" :key="product.id">
+            <div class="min-w-0"><img :src="product.image_url" :alt="product.name" class="mb-3 aspect-[1.8/1] w-full rounded-lg border border-white/[.07] object-cover"><p class="text-[10px] font-semibold uppercase tracking-wider text-slate-500" x-text="product.brand"></p><h3 class="mt-1 text-sm font-semibold leading-5 text-white sm:text-base" x-text="product.name"></h3></div>
+          </template>
+          <template x-for="row in [
+            { label: 'Price', key: 'price' },
+            { label: 'Processor / performance', key: 'processor' },
+            { label: 'Display & screen', key: 'display' },
+            { label: 'RAM & storage', key: 'ram_storage' },
+            { label: 'Battery & charging', key: 'battery' }
+          ]" :key="row.key">
+            <div class="col-span-3 grid grid-cols-[92px_1fr_1fr] gap-3 border-t border-white/[.07] py-3.5 sm:grid-cols-[160px_1fr_1fr] sm:gap-5 sm:py-4">
+              <p class="text-[10px] font-medium leading-4 text-slate-500 sm:text-xs" x-text="row.label"></p>
+              <template x-for="product in selectedProducts" :key="product.id"><p class="text-xs font-medium leading-5 text-slate-200 sm:text-sm" x-text="row.key === 'price' ? formatPrice(product.price) : product.specs[row.key]"></p></template>
+            </div>
+          </template>
+          <div class="col-span-3 grid grid-cols-[92px_1fr_1fr] gap-3 border-t border-white/[.07] py-3.5 sm:grid-cols-[160px_1fr_1fr] sm:gap-5 sm:py-4">
+            <p class="text-[10px] font-medium leading-4 text-slate-500 sm:text-xs">Student verdict</p>
+            <template x-for="product in selectedProducts" :key="product.id"><div><span class="inline-flex rounded-md border border-indigo/20 bg-indigo/10 px-2 py-1 text-[10px] font-semibold text-indigo-200" x-text="product.badge"></span><p class="mt-2 text-[11px] leading-5 text-slate-400" x-text="product.category === 'Laptops' ? 'A practical daily driver for assignments, research and coding between classes.' : product.category === 'Earbuds' ? 'A compact everyday pick for your commute, library sessions and calls.' : product.category === 'Smartwatches' ? 'A handy companion for notifications, activity tracking and long days on campus.' : 'A flexible second screen for lecture notes, reading and streaming.'"></p></div></template>
+          </div>
+          <div class="col-span-3 grid grid-cols-[92px_1fr_1fr] gap-3 border-t border-white/[.07] pt-4 sm:grid-cols-[160px_1fr_1fr] sm:gap-5">
+            <p class="text-[10px] font-medium leading-4 text-slate-500 sm:text-xs">Buy links</p>
+            <template x-for="product in selectedProducts" :key="product.id"><div class="flex flex-col gap-2"><a :href="product.amazon_url" target="_blank" rel="noopener noreferrer sponsored" class="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg bg-mint px-2 text-[10px] font-bold text-[#06251d] transition hover:bg-emerald-300 sm:text-xs">Amazon <i data-lucide="arrow-up-right" class="h-3.5 w-3.5"></i></a><a :href="product.cuelinks_url" target="_blank" rel="noopener noreferrer sponsored" class="inline-flex h-9 items-center justify-center gap-1.5 rounded-lg border border-white/10 bg-white/[.04] px-2 text-[10px] font-semibold text-slate-300 transition hover:bg-white/[.08] sm:text-xs">Flipkart via Cuelinks <i data-lucide="arrow-up-right" class="h-3.5 w-3.5"></i></a></div></template>
+          </div>
+        </div>
+      </div>
+      <div class="flex items-center justify-between border-t border-white/[.08] px-5 py-3.5 sm:px-7"><p class="text-[10px] text-slate-600">Retailer prices may vary.</p><button @click="clearComparison()" class="inline-flex items-center gap-1.5 rounded-lg px-2 py-2 text-xs font-medium text-slate-400 transition hover:text-white"><i data-lucide="trash-2" class="h-3.5 w-3.5"></i> Clear comparison</button></div>
+    </div>
+  </div>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/alpinejs" defer></script>
+  <script>
+    document.addEventListener('alpine:initialized', () => lucide.createIcons());
+    document.addEventListener('alpine:updated', () => lucide.createIcons());
+    document.addEventListener('DOMContentLoaded', () => lucide.createIcons());
+  </script>
+</body>
+</html>
