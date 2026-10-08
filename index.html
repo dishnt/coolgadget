@@ -94,12 +94,19 @@
     ];
 
     function gadgetMatrix() {
+      const finderParams = new URLSearchParams(window.location.search);
+      const finderMode = finderParams.get('finder') === '1';
+      const finderType = finderParams.get('type') || 'All';
+      const finderBudget = Number(finderParams.get('budget'));
+
       return {
         products,
-        categories: ['All', 'Laptops', 'Earbuds', 'Smartwatches', 'Tablets'],
-        activeCategory: 'All',
+        categories: ['All', 'Laptops', 'Smartphones', 'Earbuds', 'Smartwatches', 'Tablets'],
+        activeCategory: finderMode && ['Laptops', 'Smartphones', 'Earbuds', 'Smartwatches', 'Tablets'].includes(finderType) ? finderType : 'All',
         search: '',
-        maxBudget: 500000,
+        maxBudget: finderMode && Number.isFinite(finderBudget) && finderBudget >= 10000 && finderBudget <= 500000 ? finderBudget : 500000,
+        finderMode,
+        finderNeeds: finderMode ? finderParams.getAll('need') : [],
         selectedIds: [],
         comparisonOpen: false,
         detailsOpen: false,
@@ -114,11 +121,40 @@
         },
         get filteredProducts() {
           const query = this.search.trim().toLowerCase();
-          return this.products.filter((product) => {
+          const matches = this.products.filter((product) => {
             const matchesCategory = this.activeCategory === 'All' || product.category === this.activeCategory;
-            const searchable = [product.name, product.brand, product.category, product.badge, ...Object.values(product.specs)].join(' ').toLowerCase();
+            const searchable = [product.name, product.brand, product.category, product.badge, product.description, ...Object.values(product.specs)].join(' ').toLowerCase();
             return matchesCategory && product.price <= this.maxBudget && (!query || searchable.includes(query));
           });
+          if (!this.finderMode || !this.finderNeeds.length) return matches;
+
+          const keywords = {
+            programming: ['coding', 'programming', 'processor', 'ram'],
+            onlineClasses: ['class', 'camera', 'call', 'display', 'lecture'],
+            gaming: ['gaming', 'game', 'processor', 'graphics'],
+            portability: ['weight', 'thin', 'portable', 'battery'],
+            creativeWork: ['display', '2.8k', 'amoled', 'creative'],
+            camera: ['camera', 'video', 'display'],
+            battery: ['battery', 'charging', 'charge', 'days', 'hours'],
+            everydayUse: ['everyday', 'student', 'daily', 'value'],
+            digitalNotes: ['notes', 'lecture', 'tablet', 'display'],
+            readingMedia: ['reading', 'media', 'display', 'streaming'],
+            callsAudio: ['calls', 'microphone', 'anc', 'audio', 'bluetooth'],
+            noiseCancellation: ['anc', 'noise cancellation'],
+            fitness: ['fitness', 'sports', 'workout', 'activity']
+          };
+          const score = (product) => {
+            const searchable = [product.name, product.badge, product.description, ...Object.values(product.specs)].join(' ').toLowerCase();
+            return this.finderNeeds.reduce((total, need) => {
+              const terms = keywords[need] || [need.toLowerCase()];
+              return total + (terms.some((term) => searchable.includes(term)) ? 1 : 0);
+            }, 0);
+          };
+          return [...matches].sort((first, second) => score(second) - score(first));
+        },
+        get finderNeedsLabel() {
+          const labels = { programming: 'Programming', onlineClasses: 'Online classes', gaming: 'Gaming', portability: 'Portability', creativeWork: 'Creative work', camera: 'Camera', battery: 'Battery life', everydayUse: 'Everyday use', digitalNotes: 'Digital notes', readingMedia: 'Reading & media', callsAudio: 'Calls & audio', noiseCancellation: 'Noise cancellation', fitness: 'Fitness' };
+          return this.finderNeeds.map((need) => labels[need] || need).join(' · ');
         },
         get selectedProducts() {
           return this.selectedIds.map((id) => this.products.find((product) => product.id === id)).filter(Boolean);
@@ -171,14 +207,14 @@
         </template>
       </nav>
       <div class="hidden items-center gap-5 sm:flex">
-        <a href="best-laptops-under-50000.html" class="text-xs font-semibold text-cyan transition hover:text-cyan-300">Laptop guide</a>
+        <a href="device-finder.html" class="text-xs font-semibold text-cyan transition hover:text-cyan-300">Device finder</a>
         <a href="#products" class="inline-flex items-center gap-2 text-xs font-semibold text-slate-300 transition hover:text-cyan">Student picks <i data-lucide="arrow-up-right" class="h-3.5 w-3.5"></i></a>
       </div>
       <nav class="absolute left-0 right-0 top-[70px] flex gap-2 overflow-x-auto border-b border-white/[.06] bg-ink px-5 py-2.5 md:hidden" aria-label="Product categories">
         <template x-for="category in categories" :key="category">
           <button @click="activeCategory = category" :aria-pressed="activeCategory === category" :class="activeCategory === category ? 'border-cyan/40 bg-cyan/10 text-cyan' : 'border-white/10 text-slate-400'" class="shrink-0 rounded-full border px-3 py-1.5 text-xs font-medium" x-text="category"></button>
         </template>
-        <a href="best-laptops-under-50000.html" class="shrink-0 rounded-full border border-cyan/30 bg-cyan/[.07] px-3 py-1.5 text-xs font-semibold text-cyan">Laptop guide</a>
+        <a href="device-finder.html" class="shrink-0 rounded-full border border-cyan/30 bg-cyan/[.07] px-3 py-1.5 text-xs font-semibold text-cyan">Device finder</a>
       </nav>
     </div>
   </header>
@@ -200,7 +236,7 @@
               <input x-ref="search" x-model="search" type="search" placeholder="Search laptops, earbuds, specs..." aria-label="Search gadgets" class="w-full bg-transparent text-sm text-white outline-none placeholder:text-slate-500">
               <kbd class="hidden rounded border border-white/10 px-1.5 py-1 text-[10px] text-slate-500 sm:inline">Ctrl K</kbd>
             </label>
-            <a href="#products" class="inline-flex h-14 items-center justify-center gap-2 rounded-xl bg-indigo px-5 text-sm font-semibold text-white shadow-[0_8px_30px_rgba(99,102,241,.22)] transition duration-300 hover:-translate-y-0.5 hover:bg-indigo-500">Explore picks <i data-lucide="arrow-down" class="h-4 w-4"></i></a>
+            <a href="device-finder.html" class="inline-flex min-h-14 items-center justify-center gap-2 rounded-xl bg-indigo px-5 py-3 text-center text-sm font-semibold leading-tight text-white shadow-[0_8px_30px_rgba(99,102,241,.22)] transition duration-300 hover:-translate-y-0.5 hover:bg-indigo-500">Find the best device for you <i data-lucide="arrow-right" class="h-4 w-4 shrink-0"></i></a>
           </div>
           <div class="mt-4 flex flex-wrap items-center gap-x-4 gap-y-2 text-[11px] text-slate-500"><span>Popular:</span><button @click="search = 'Ryzen'" class="transition hover:text-cyan">Ryzen 5</button><button @click="search = 'AMOLED'" class="transition hover:text-cyan">AMOLED</button><button @click="search = 'battery'" class="transition hover:text-cyan">Long battery</button><button @click="search = ''" class="transition hover:text-cyan">Clear search</button></div>
         </div>
@@ -233,6 +269,10 @@
     </section>
 
     <section id="products" class="mx-auto max-w-[1440px] px-5 pb-28 pt-14 sm:px-8 sm:pb-32 sm:pt-20 lg:px-12">
+      <div id="finder-results" x-cloak x-show="finderMode" class="mb-8 flex flex-col justify-between gap-4 border-b border-cyan/20 bg-cyan/[.04] px-4 py-5 sm:flex-row sm:items-center sm:px-5">
+        <div><p class="text-[10px] font-semibold uppercase tracking-[.16em] text-cyan">Your device finder results</p><h2 class="display mt-1 text-xl font-semibold text-white">Best fits for <span x-text="activeCategory"></span></h2><p class="mt-1 text-xs leading-5 text-slate-400"><span x-text="finderNeedsLabel || 'Your selected device type'"></span> · Budget up to <span x-text="formatPrice(maxBudget)"></span></p></div>
+        <a href="device-finder.html" class="inline-flex h-10 shrink-0 items-center justify-center gap-2 rounded-lg border border-white/10 px-4 text-xs font-semibold text-slate-200 transition hover:bg-white/[.05]">Change answers <i data-lucide="rotate-ccw" class="h-3.5 w-3.5"></i></a>
+      </div>
       <div class="mb-8 flex flex-col justify-between gap-5 border-b border-white/[.08] pb-6 sm:flex-row sm:items-end">
         <div>
           <div class="mb-3 flex items-center gap-2 text-[11px] font-semibold uppercase tracking-[.16em] text-cyan"><span class="h-px w-5 bg-cyan"></span> The student shortlist</div>
@@ -273,9 +313,10 @@
 
       <div x-cloak x-show="!filteredProducts.length" class="border-y border-white/[.08] py-20 text-center">
         <span class="mx-auto flex h-12 w-12 items-center justify-center rounded-xl border border-white/10 bg-white/[.03] text-slate-500"><i data-lucide="search-x" class="h-5 w-5"></i></span>
-        <h3 class="mt-4 text-lg font-semibold text-white">No picks in this search</h3>
-        <p class="mt-1 text-sm text-slate-500">Try another term or raise your budget ceiling.</p>
-        <button @click="search = ''; activeCategory = 'All'; maxBudget = 500000" class="mt-5 text-sm font-semibold text-cyan hover:text-cyan-300">Reset filters</button>
+        <h3 class="mt-4 text-lg font-semibold text-white" x-text="finderMode && activeCategory === 'Smartphones' ? 'Smartphone picks are coming soon' : finderMode ? 'No picks match this budget yet' : 'No picks in this search'"></h3>
+        <p class="mt-1 text-sm text-slate-500" x-text="finderMode && activeCategory === 'Smartphones' ? 'We have not added curated smartphone recommendations yet. Your answers are saved; check back as the catalog grows.' : 'Try another term, raise your budget ceiling, or change your finder answers.'"></p>
+        <a x-show="finderMode" href="device-finder.html" class="mt-5 inline-block text-sm font-semibold text-cyan hover:text-cyan-300">Change finder answers</a>
+        <button x-show="!finderMode" @click="search = ''; activeCategory = 'All'; maxBudget = 500000" class="mt-5 text-sm font-semibold text-cyan hover:text-cyan-300">Reset filters</button>
       </div>
 
       <section id="product-description" x-cloak x-show="descriptionProduct" class="scroll-mt-24 border-y border-white/[.08] py-10 sm:py-14" aria-labelledby="product-description-title">

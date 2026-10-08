@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0B0F17">
+  <meta name="description" content="Answer a few quick questions about the tech you need, what matters to you, and your budget. Find student-friendly device picks.">
+  <title>Find the Best Device for You | Tech Gadget Matrix</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { theme: { extend: { colors: { ink: '#0B0F17', surface: '#161F30', indigo: '#6366F1', mint: '#10B981', cyan: '#06B6D4' }, fontFamily: { sans: ['DM Sans', 'sans-serif'], display: ['Space Grotesk', 'sans-serif'] } } };
+  </script>
+  <style>
+    [x-cloak] { display: none !important; }
+    :root { color-scheme: dark; }
+    body { font-family: 'DM Sans', sans-serif; background: #0B0F17; }
+    h1, h2, h3, .display { font-family: 'Space Grotesk', sans-serif; }
+    .grid-noise { background-image: linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px); background-size: 42px 42px; mask-image: linear-gradient(to bottom, black, transparent 82%); }
+    .hero-glow { background: radial-gradient(ellipse at 52% 7%, rgba(99,102,241,.18), transparent 58%), radial-gradient(ellipse at 90% 70%, rgba(6,182,212,.08), transparent 38%); }
+    .range-input { accent-color: #06B6D4; }
+    .step-content { animation: appear .28s ease-out both; }
+    @keyframes appear { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+  </style>
+  <script>
+    function deviceFinder() {
+      return {
+        step: 1,
+        deviceType: '',
+        selectedNeeds: [],
+        budget: 50000,
+        deviceTypes: [
+          { id: 'Laptops', label: 'Laptop', description: 'Classes, projects, work or play', icon: 'laptop' },
+          { id: 'Smartphones', label: 'Smartphone', description: 'Your everyday pocket companion', icon: 'smartphone' },
+          { id: 'Tablets', label: 'Tablet', description: 'Notes, reading and streaming', icon: 'tablet' },
+          { id: 'Earbuds', label: 'Wireless earbuds', description: 'Music, calls and focus', icon: 'headphones' },
+          { id: 'Smartwatches', label: 'Smartwatch', description: 'Fitness and at-a-glance updates', icon: 'watch' }
+        ],
+        needOptions: {
+          Laptops: [
+            { id: 'programming', label: 'Programming & coding', icon: 'code-xml' },
+            { id: 'onlineClasses', label: 'Online classes & calls', icon: 'video' },
+            { id: 'gaming', label: 'Gaming', icon: 'gamepad-2' },
+            { id: 'creativeWork', label: 'Creative work', icon: 'palette' },
+            { id: 'portability', label: 'Easy to carry', icon: 'briefcase-business' },
+            { id: 'battery', label: 'Long battery life', icon: 'battery-full' }
+          ],
+          Smartphones: [
+            { id: 'camera', label: 'Photos & video', icon: 'camera' },
+            { id: 'gaming', label: 'Gaming & performance', icon: 'gamepad-2' },
+            { id: 'onlineClasses', label: 'Online classes & calls', icon: 'video' },
+            { id: 'battery', label: 'Long battery life', icon: 'battery-full' },
+            { id: 'everydayUse', label: 'Everyday college use', icon: 'calendar-days' }
+          ],
+          Tablets: [
+            { id: 'digitalNotes', label: 'Digital notes & study', icon: 'notebook-pen' },
+            { id: 'onlineClasses', label: 'Online classes', icon: 'video' },
+            { id: 'readingMedia', label: 'Reading & streaming', icon: 'book-open' },
+            { id: 'creativeWork', label: 'Creative work', icon: 'palette' },
+            { id: 'battery', label: 'Long battery life', icon: 'battery-full' }
+          ],
+          Earbuds: [
+            { id: 'callsAudio', label: 'Clear calls & audio', icon: 'audio-lines' },
+            { id: 'noiseCancellation', label: 'Noise cancellation', icon: 'audio-waveform' },
+            { id: 'battery', label: 'Long battery life', icon: 'battery-full' },
+            { id: 'everydayUse', label: 'Commute & everyday use', icon: 'footprints' }
+          ],
+          Smartwatches: [
+            { id: 'fitness', label: 'Fitness & activity tracking', icon: 'activity' },
+            { id: 'battery', label: 'Long battery life', icon: 'battery-full' },
+            { id: 'everydayUse', label: 'Notifications & daily use', icon: 'bell' }
+          ]
+        },
+        get currentNeeds() {
+          return this.needOptions[this.deviceType] || [];
+        },
+        get selectedDeviceLabel() {
+          return this.deviceTypes.find((device) => device.id === this.deviceType)?.label.toLowerCase() || 'device';
+        },
+        get selectedNeedLabels() {
+          return this.currentNeeds.filter((need) => this.selectedNeeds.includes(need.id)).map((need) => need.label);
+        },
+        formatPrice(amount) {
+          return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(amount);
+        },
+        toggleNeed(needId) {
+          this.selectedNeeds = this.selectedNeeds.includes(needId)
+            ? this.selectedNeeds.filter((selectedNeed) => selectedNeed !== needId)
+            : [...this.selectedNeeds, needId];
+        },
+        continueToNeeds() {
+          if (this.deviceType) this.step = 2;
+        },
+        continueToBudget() {
+          if (this.selectedNeeds.length) this.step = 3;
+        },
+        findDevice() {
+          if (!this.deviceType || !this.selectedNeeds.length) return;
+          const params = new URLSearchParams({ finder: '1', type: this.deviceType, budget: String(this.budget) });
+          this.selectedNeeds.forEach((need) => params.append('need', need));
+          window.location.href = `index.html?${params.toString()}#finder-results`;
+        }
+      };
+    }
+  </script>
+</head>
+<body class="min-h-screen bg-ink text-slate-100 antialiased" x-data="deviceFinder()">
+  <header class="fixed inset-x-0 top-0 z-40 border-b border-white/[.08] bg-[#0B0F17]/85 backdrop-blur-xl">
+    <div class="mx-auto flex h-[70px] max-w-6xl items-center justify-between gap-4 px-5 sm:px-8">
+      <a href="index.html" class="flex shrink-0 items-center gap-2.5" aria-label="Gadget Matrix home"><span class="h-2.5 w-2.5 rounded-full bg-cyan shadow-[0_0_14px_#06B6D4]"></span><span class="font-display text-[13px] font-bold tracking-[.12em] text-white">GADGET <span class="text-slate-400">MATRIX</span></span></a>
+      <a href="index.html#products" class="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 transition hover:text-white"><i data-lucide="arrow-left" class="h-3.5 w-3.5"></i> Browse products</a>
+    </div>
+  </header>
+
+  <main class="hero-glow relative isolate min-h-screen overflow-hidden pt-[70px]">
+    <div class="grid-noise pointer-events-none absolute inset-0 -z-10"></div>
+    <div class="mx-auto max-w-6xl px-5 pb-16 pt-12 sm:px-8 sm:pb-24 sm:pt-16">
+      <div class="max-w-3xl">
+        <p class="mb-4 inline-flex items-center gap-2 text-[10px] font-semibold uppercase tracking-[.16em] text-cyan"><i data-lucide="scan-search" class="h-4 w-4"></i> Your student tech shortlist</p>
+        <h1 class="display text-4xl font-semibold leading-[1.08] tracking-[-.035em] text-white sm:text-6xl">A few quick answers.<br><span class="bg-gradient-to-r from-cyan via-indigo to-[#a5b4fc] bg-clip-text text-transparent">A better-fit device.</span></h1>
+        <p class="mt-5 max-w-2xl text-sm leading-6 text-slate-400 sm:text-base">Tell us what you’re shopping for, what you’ll use it for, and what you want to spend. We’ll sort the student picks around your answers.</p>
+      </div>
+
+      <section class="mt-10 max-w-4xl border-t border-white/[.1] pt-6 sm:mt-14 sm:pt-8" aria-live="polite">
+        <div class="mb-8 flex items-center gap-3" aria-label="Questionnaire progress">
+          <template x-for="stepNumber in [1, 2, 3]" :key="stepNumber"><div class="flex flex-1 items-center gap-2"><span :class="step >= stepNumber ? 'bg-cyan' : 'bg-white/10'" class="h-1 flex-1 rounded-full transition-colors"></span><span class="sr-only" x-text="'Step ' + stepNumber"></span></div></template>
+          <span class="shrink-0 text-[10px] font-semibold uppercase tracking-wider text-slate-500"><span x-text="step"></span> / 3</span>
+        </div>
+
+        <div x-cloak x-show="step === 1" class="step-content">
+          <p class="text-[10px] font-semibold uppercase tracking-[.14em] text-slate-500">First, the device</p>
+          <h2 class="display mt-2 text-2xl font-semibold text-white sm:text-3xl">What are you shopping for?</h2>
+          <div class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <template x-for="device in deviceTypes" :key="device.id">
+              <button @click="deviceType = device.id" :aria-pressed="deviceType === device.id" :class="deviceType === device.id ? 'border-cyan/60 bg-cyan/[.08] ring-1 ring-cyan/30' : 'border-white/10 bg-white/[.025] hover:border-white/20 hover:bg-white/[.045]'" class="flex min-h-24 items-start gap-4 rounded-lg border p-4 text-left transition-all duration-200">
+                <i :data-lucide="device.icon" :class="deviceType === device.id ? 'text-cyan' : 'text-slate-500'" class="mt-0.5 h-5 w-5 shrink-0"></i>
+                <span><span class="block text-sm font-semibold text-white" x-text="device.label"></span><span class="mt-1 block text-xs leading-5 text-slate-500" x-text="device.description"></span></span>
+              </button>
+            </template>
+          </div>
+          <div class="mt-7 flex justify-end">
+            <button @click="continueToNeeds()" :disabled="!deviceType" class="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-indigo px-5 text-sm font-semibold text-white transition hover:bg-indigo-500 disabled:cursor-not-allowed disabled:bg-slate-700 disabled:text-slate-400">Continue <i data-lucide="arrow-right" class="h-4 w-4"></i></button>
+          </div>
+        </div>
+
+        <div x-cloak x-show="step === 2" class="step-content">
+          <p class="text-[10px] font-semibold uppercase tracking-[.14em] text-slate-500">Next, what matters</p>
+          <h2 class="display mt-2 text-2xl font-semibold text-white sm:text-3xl">What will you use your <span x-text="selectedDeviceLabel"></span> for?</h2>
+          <p class="mt-2 text-sm text-slate-500">Pick all that apply.</p>
+          <div class="mt-6 grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            <template x-for="need in currentNeeds" :key="need.id">
+              <button @click="toggleNeed(need.id)" :aria-pressed="selectedNeeds.includes(need.id)" :class="selectedNeeds.includes(need.id) ? 'border-cyan/60 bg-cyan/[.08] text-white ring-1 ring-cyan/30' : 'border-white/10 bg-white/[.025] text-slate-300 hover:border-white/20 hover:bg-white/[.045]'" class="flex min-h-14 items-center gap-3 rounded-lg border px-4 py-3 text-left text-sm font-medium transition-all duration-200"><i :data-lucide="need.icon" :class="selectedNeeds.includes(need.id) ? 'text-cyan' : 'text-slate-500'" class="h-4 w-4 shrink-0"></i><span x-text="need.label"></span><i x-show="selectedNeeds.includes(need.id)" data-lucide="check" class="ml-auto h-4 w-4 text-cyan"></i></button>
+            </template>
+          </div>
+          <div class="mt-7 flex items-center justify-between gap-3">
+            <button @click="step = 1" class="inline-flex h-11 items-center justify-center gap-2 rounded-lg border border-white/10 px-4 text-sm font-semibold text-slate-300 transition hover:bg-white/[.05]"><i data-lucide="arrow-left" class="h-4 w-4"></i> Back</button>
+            <button @click="continueToBudget()" :disabled="!selectedNeeds.length" class="inline-flex h-11 items-center justify-center gap-2 rounded-lg bg-indigo px-5 text-sm font-semibold text-white transition hover:bg-indigo-500 disabled:cursor-not-allowed disabled:bg-slate-700 disabled:text-slate-400">Set my budget <i data-lucide="arrow-right" class="h-4 w-4"></i></button>
+          </div>
+        </div>
+
+        <div x-cloak x-show="step === 3" class="step-content">
+          <p class="text-[10px] font-semibold uppercase tracking-[.14em] text-slate-500">Last one, your budget</p>
+          <h2 class="display mt-2 text-2xl font-semibold text-white sm:text-3xl">What’s your max spend?</h2>
+          <p class="mt-2 text-sm text-slate-500">We’ll leave out anything above your limit.</p>
+          <div class="mt-8 max-w-2xl border-y border-white/[.08] py-7">
+            <div class="flex flex-wrap items-end justify-between gap-3"><span class="text-xs text-slate-500">Your maximum budget</span><span class="display text-3xl font-semibold text-white sm:text-4xl" x-text="formatPrice(budget)"></span></div>
+            <input x-model.number="budget" type="range" min="10000" max="500000" step="5000" aria-label="Maximum budget" class="range-input mt-7 h-1.5 w-full cursor-pointer appearance-none rounded-full bg-slate-700">
+            <div class="mt-2 flex justify-between text-[11px] text-slate-500"><span>₹10,000</span><span>₹5,00,000</span></div>
+          </div>
+          <div class="mt-6 flex flex-wrap gap-2"><span class="rounded-full border border-white/10 px-3 py-1.5 text-[11px] text-slate-400" x-text="deviceTypes.find((device) => device.id === deviceType)?.label"></span><template x-for="label in selectedNeedLabels" :key="label"><span class="rounded-full border border-cyan/20 bg-cyan/[.05] px-3 py-1.5 text-[11px] text-cyan" x-text="label"></span></template></div>
+          <div class="mt-8 flex flex-col-reverse items-stretch justify-between gap-3 sm:flex-row sm:items-center">
+            <button @click="step = 2" class="inline-flex h-11 items-center justify-center gap-2 rounded-lg border border-white/10 px-4 text-sm font-semibold text-slate-300 transition hover:bg-white/[.05]"><i data-lucide="arrow-left" class="h-4 w-4"></i> Back</button>
+            <button @click="findDevice()" class="inline-flex min-h-12 items-center justify-center gap-2 rounded-lg bg-mint px-6 py-3 text-center text-sm font-bold leading-tight text-[#06251d] transition hover:bg-emerald-300">Find the best device for you <i data-lucide="arrow-right" class="h-4 w-4 shrink-0"></i></button>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://unpkg.com/alpinejs" defer></script>
+  <script>
+    document.addEventListener('alpine:initialized', () => lucide.createIcons());
+    document.addEventListener('alpine:updated', () => lucide.createIcons());
+    document.addEventListener('DOMContentLoaded', () => lucide.createIcons());
+  </script>
+</body>
+</html>
