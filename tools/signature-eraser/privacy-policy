@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Privacy Policy | coolgadget.in</title>
+<meta name="description" content="How coolgadget.in handles your data, cookies and advertising.">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com/3.4.17"></script>
+<script>tailwind.config={theme:{extend:{colors:{bg:"#0B0F17",surf:"#161F30",cy:"#06B6D4"},fontFamily:{display:["Space Grotesk","sans-serif"],body:["DM Sans","sans-serif"]}}}};</script>
+</head>
+<body class="bg-bg text-slate-300 font-body antialiased">
+<main class="max-w-3xl mx-auto px-5 py-10 space-y-6 leading-relaxed">
+  <a href="/" class="font-display text-sm text-cy hover:underline">coolgadget.in</a>
+  <h1 class="font-display text-3xl font-bold text-white">Privacy Policy</h1>
+  <p class="text-sm text-slate-500">Last updated: 29 October 2026</p>
+
+  <h2 class="font-display text-xl text-white font-bold pt-2">Images you process</h2>
+  <p>Tools on coolgadget.in, including the Transparent Signature Extractor, run entirely in your browser. Images you select are processed on your device. We do not upload, store, view or log them.</p>
+
+  <h2 class="font-display text-xl text-white font-bold pt-2">Information we collect</h2>
+  <p>We do not ask you to create an account or give us personal details. Our hosting provider and analytics tools, if used, may record standard technical data such as IP address, browser type and pages visited.</p>
+
+  <h2 class="font-display text-xl text-white font-bold pt-2">Advertising and cookies</h2>
+  <p>We use Google AdSense to show ads. Google and its partners may use cookies and similar technologies to serve ads based on your visits to this and other websites, and to measure ad performance. You can manage personalised advertising at <a class="text-cy underline" href="https://adssettings.google.com" rel="noopener">adssettings.google.com</a>, and learn how Google uses data at <a class="text-cy underline" href="https://policies.google.com/technologies/partner-sites" rel="noopener">policies.google.com/technologies/partner-sites</a>. You can also block or delete cookies in your browser settings.</p>
+  <p>Where required by law, such as in the European Economic Area, the United Kingdom and Switzerland, we ask for your consent before using cookies for personalised ads.</p>
+
+  <h2 class="font-display text-xl text-white font-bold pt-2">Children</h2>
+  <p>This site is not directed at children under 13, and we do not knowingly collect their data.</p>
+
+  <h2 class="font-display text-xl text-white font-bold pt-2">Changes and contact</h2>
+  <p>We may update this policy and will change the date above when we do. Questions can be sent to <a class="text-cy underline" href="mailto:contact@coolgadget.in">contact@coolgadget.in</a>.</p>
+</main>
+</body>
+</html>
